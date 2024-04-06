@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+    </head>
+    <body>
+        <main>
+        
+        </main>
+        <script>
+            var numero = 100
+            posiciones = ['💎','📋','✂️']
+            for(let i = 0;i<numero;i++){
+                let newDiv = document.createElement("div");
+                newDiv.textContent = posiciones[Math.floor(Math.random()*3)];
+                newDiv.style.position = "absolute";
+                newDiv.style.left = Math.random()*window.innerWidth+"px";
+                newDiv.style.top = Math.random()*window.innerHeight+"px";
+                newDiv.setAttribute("r",Math.random()*Math.PI*2)
+                document.body.appendChild(newDiv);
+            }
+            var temporizador = setTimeout("bucle()",1000)
+            
+            function bucle(){
+                var mainDivs = document.querySelectorAll('div');
+                mainDivs.forEach(function(div) {
+                    if(div.style.left.replace("px","")*1 < 0){
+                        div.style.left = "0px"
+                        div.setAttribute("r",Math.random()*Math.PI*2)
+                    }
+                    if(div.style.left.replace("px","")*1 > window.innerWidth){
+                        div.style.left = window.innerWidth+"px"
+                        div.setAttribute("r",Math.random()*Math.PI*2)
+                    }
+                    if(div.style.top.replace("px","")*1 < 0){
+                        div.style.top = "0px"
+                        div.setAttribute("r",Math.random()*Math.PI*2)
+                    }
+                    if(div.style.top.replace("px","")*1 > window.innerHeight){
+                        div.style.top = (window.innerHeight-15)+"px"
+                        div.setAttribute("r",Math.random()*Math.PI*2)
+                    }
+                    div.style.left = div.style.left.replace("px","")*1+Math.cos(div.getAttribute("r"))+"px"
+                    div.style.top = div.style.top.replace("px","")*1+Math.sin(div.getAttribute("r"))+"px"
+                    var otrosDivs = document.querySelectorAll('div');
+                    otrosDivs.forEach(function(div2) {
+                        if(
+                            Math.abs(
+                                div.style.left.replace("px","")*1 - div2.style.left.replace("px","")*1
+                            ) < 10
+                            &&
+                            Math.abs(
+                                div.style.top.replace("px","")*1 - div2.style.top.replace("px","")*1
+                            ) < 10
+                        ){
+                            if(div.textContent == "💎" && div2.textContent == "📋"){
+                                div.textContent = "📋"
+                            }
+                            if(div.textContent == "📋" && div2.textContent == "✂️"){
+                                div.textContent = "✂️"
+                            }
+                            if(div.textContent == "✂️" && div2.textContent == "💎"){
+                                div.textContent = "💎"
+                            }
+                        }
+                    })
+                });
+                
+                clearTimeout(temporizador)
+                temporizador = setTimeout("bucle()",1)
+            }
+        </script>
+    </body>
+</html>
